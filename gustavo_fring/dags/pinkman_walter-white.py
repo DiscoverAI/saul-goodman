@@ -10,7 +10,19 @@ SPARK_STEPS = [
         'Name': 'pinkman',
         'ActionOnFailure': 'TERMINATE_CLUSTER',
         'HadoopJarStep': {
-            'Jar': 's3://sars-cov-2-25309b4013524/pinkman/pinkman-job.jar'
+            'Jar': 'command-runner.jar',
+            'Args': [
+                'spark-submit',
+                '--deploy-mode',
+                'cluster',
+                '--master',
+                'yarn',
+                '--class',
+                'com.github.discoverai.pinkman.Pinkman',
+                's3://sars-cov-2-25309b4013524/pinkman/pinkman-job.jar',
+                'sars-cov-2-25309b4013524',
+                'http://gartsy.de:5000'
+            ]
         }
     }
 ]
@@ -24,17 +36,17 @@ JOB_FLOW_OVERRIDES = {
         'InstanceGroups': [
             {
                 'Name': 'Master nodes',
-                'Market': 'ON_DEMAND',
+                'Market': 'SPOT',
                 'InstanceRole': 'MASTER',
-                'InstanceType': 'm5.xlarge',
+                'InstanceType': 'm4.large',
                 'InstanceCount': 1,
             },
             {
                 'Name': 'Core nodes',
-                'Market': 'ON_DEMAND',
+                'Market': 'SPOT',
                 'InstanceRole': 'CORE',
-                'InstanceType': 'm5.xlarge',
-                'InstanceCount': 3,
+                'InstanceType': 'm4.large',
+                'InstanceCount': 2,
             }
         ],
         'KeepJobFlowAliveWhenNoSteps': False,
