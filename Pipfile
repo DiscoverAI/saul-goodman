@@ -7,7 +7,7 @@ verify_ssl = true
 pylint = "*"
 
 [packages]
-apache-airflow = "*"
+apache-airflow = {extras = ["aws"],version = "*"}
 cryptography = "*"
 
 [requires]
