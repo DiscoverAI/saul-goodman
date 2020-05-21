@@ -44,3 +44,4 @@ env.bak/
 venv.bak/
 .idea
 *.pid
+*.log
