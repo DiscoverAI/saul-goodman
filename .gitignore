@@ -36,7 +36,6 @@ coverage.xml
 .pytest_cache/
 .python-version
 __pypackages__/
-.env
 .venv
 env/
 venv/
@@ -44,3 +43,4 @@ ENV/
 env.bak/
 venv.bak/
 .idea
+*.pid
