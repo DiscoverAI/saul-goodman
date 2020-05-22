@@ -1,4 +1,8 @@
 # Saul Goodman
+> "Congratulations! You're Now Officially The Cute One Of The Group."
+>
+> -- Saul Goodman (Breaking Bad)
+
 Pipeline orchestration to create a working drug creation model.
 
 ## Install
