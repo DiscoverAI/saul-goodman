@@ -46,3 +46,4 @@ venv.bak/
 .idea
 *.pid
 *.log
+*.db
