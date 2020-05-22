@@ -37,7 +37,6 @@ coverage.xml
 .python-version
 __pypackages__/
 .venv
-.env
 env/
 venv/
 ENV/
@@ -47,3 +46,4 @@ venv.bak/
 *.pid
 *.log
 *.db
+saul_goodman/logs
