@@ -11,5 +11,5 @@ cryptography = "*"
 python_version = "3.7"
 
 [scripts]
-start-server = "airflow webserver -p 8080"
+start-server = "airflow webserver -p ${PORT}"
 start-scheduler = "airflow scheduler"
