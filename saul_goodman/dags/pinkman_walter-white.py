@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 
 from airflow import DAG
@@ -19,9 +20,9 @@ SPARK_STEPS = [
                 'yarn',
                 '--class',
                 'com.github.discoverai.pinkman.Pinkman',
-                's3://sars-cov-2-25309b4013524/pinkman/pinkman-job.jar',
-                'sars-cov-2-25309b4013524',
-                'http://gartsy.de:5000'
+                os.getenv("PINKMAN_JAR_URI"),
+                os.getenv("DATALAKE"),
+                os.getenv("MLFLOW_TRACKING_URI")
             ]
         }
     }
@@ -30,7 +31,7 @@ SPARK_STEPS = [
 JOB_FLOW_OVERRIDES = {
     'Name': 'Pinkman',
     'ReleaseLabel': 'emr-6.0.0',
-    "LogUri": "s3://sars-cov-2-25309b4013524/pinkman/emr-logs",
+    "LogUri": os.getenv("PINKMAN_LOG_URI"),
     'Instances': {
         "Ec2KeyName": "tuco-key",
         'InstanceGroups': [
