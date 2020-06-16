@@ -21,7 +21,7 @@ SPARK_STEPS = [
                 '--class',
                 'com.github.discoverai.pinkman.Pinkman',
                 os.getenv("PINKMAN_JAR_URI"),
-                os.getenv("DATALAKE"),
+                os.getenv("DATALAKE").replace("s3://", ""),
                 os.getenv("MLFLOW_TRACKING_URI")
             ]
         }
