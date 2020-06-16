@@ -54,6 +54,9 @@ JOB_FLOW_OVERRIDES = {
         'TerminationProtected': False,
     },
     'Steps': SPARK_STEPS,
+    'Applications': [
+        {'Name': 'Spark'}
+    ],
     'JobFlowRole': 'EMR_EC2_DefaultRole',
     'ServiceRole': 'EMR_DefaultRole',
 }
