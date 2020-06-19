@@ -78,8 +78,8 @@ dag = DAG(
     schedule_interval='@daily',
 )
 
-job_flow_creator = EmrCreateJobFlowOperator(
-    task_id='create_job_flow',
+start_pinkman = EmrCreateJobFlowOperator(
+    task_id='start_pinkman',
     job_flow_overrides=JOB_FLOW_OVERRIDES,
     aws_conn_id='aws_default',
     emr_conn_id='emr_default',
@@ -87,11 +87,11 @@ job_flow_creator = EmrCreateJobFlowOperator(
     dag=dag,
 )
 
-job_sensor = EmrJobFlowSensor(
-    task_id='check_job_flow',
+check_pinkman_result = EmrJobFlowSensor(
+    task_id='check_pinkman_result',
     job_flow_id="{{ task_instance.xcom_pull(task_ids='create_job_flow', key='return_value') }}",
     aws_conn_id='aws_default',
     dag=dag,
 )
 
-job_flow_creator >> job_sensor
+start_pinkman >> check_pinkman_result
