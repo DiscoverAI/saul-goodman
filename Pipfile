@@ -6,6 +6,7 @@ verify_ssl = true
 [packages]
 apache-airflow = {extras = ["crypto", "aws"],version = "*"}
 cryptography = "*"
+boto3 = "*"
 
 [requires]
 python_version = "3.7"

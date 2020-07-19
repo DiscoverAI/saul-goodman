@@ -1,12 +1,14 @@
 import os
 from datetime import timedelta
 
+import boto3
 from airflow import DAG
 from airflow.contrib.operators.emr_create_job_flow_operator import EmrCreateJobFlowOperator
 from airflow.contrib.sensors.emr_job_flow_sensor import EmrJobFlowSensor
+from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import days_ago
 
-SPARK_STEPS = [
+PINKMAN_SPARK_STEPS = [
     {
         'Name': 'pinkman',
         'ActionOnFailure': 'TERMINATE_CLUSTER',
@@ -27,8 +29,7 @@ SPARK_STEPS = [
         }
     }
 ]
-
-JOB_FLOW_OVERRIDES = {
+PINKMAN_JOB_FLOW_OVERRIDES = {
     'Name': 'Pinkman',
     'ReleaseLabel': 'emr-6.0.0',
     "LogUri": os.getenv("PINKMAN_LOG_URI"),
@@ -53,13 +54,23 @@ JOB_FLOW_OVERRIDES = {
         'KeepJobFlowAliveWhenNoSteps': False,
         'TerminationProtected': False,
     },
-    'Steps': SPARK_STEPS,
+    'Steps': PINKMAN_SPARK_STEPS,
     'Applications': [
         {'Name': 'Spark'}
     ],
     'JobFlowRole': 'EMR_EC2_DefaultRole',
     'ServiceRole': 'EMR_DefaultRole',
 }
+
+
+def submit_walter_white_job():
+    client = boto3.client('batch')
+    return client.submit_job(
+        jobName='walter-white',
+        jobQueue=os.getenv('COMPUTE_ENVIRONMENT_JOB_QUEUE'),
+        jobDefinition=os.getenv('WALTER_WHITE_JOB_DEFINITION'),
+    )
+
 
 default_args = {
     'owner': 'airflow',
@@ -80,7 +91,7 @@ dag = DAG(
 
 start_pinkman = EmrCreateJobFlowOperator(
     task_id='start_pinkman',
-    job_flow_overrides=JOB_FLOW_OVERRIDES,
+    job_flow_overrides=PINKMAN_JOB_FLOW_OVERRIDES,
     aws_conn_id='aws_default',
     emr_conn_id='emr_default',
     region_name='eu-central-1',
@@ -94,4 +105,10 @@ check_pinkman_result = EmrJobFlowSensor(
     dag=dag,
 )
 
-start_pinkman >> check_pinkman_result
+start_walter_white = PythonOperator(
+    task_id='start_walter-white',
+    python_callable=submit_walter_white_job,
+    dag=dag,
+)
+
+start_pinkman >> check_pinkman_result >> start_walter_white
