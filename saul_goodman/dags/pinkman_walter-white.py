@@ -100,7 +100,7 @@ start_pinkman = EmrCreateJobFlowOperator(
 
 check_pinkman_result = EmrJobFlowSensor(
     task_id='check_pinkman_result',
-    job_flow_id="{{ task_instance.xcom_pull(task_ids='create_job_flow', key='return_value') }}",
+    job_flow_id="{{ task_instance.xcom_pull(task_ids='start_pinkman', key='return_value') }}",
     aws_conn_id='aws_default',
     dag=dag,
 )
