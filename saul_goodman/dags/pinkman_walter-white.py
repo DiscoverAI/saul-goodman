@@ -48,7 +48,7 @@ PINKMAN_JOB_FLOW_OVERRIDES = {
                 'Market': 'ON_DEMAND',
                 'InstanceRole': 'CORE',
                 'InstanceType': 'm4.large',
-                'InstanceCount': 2,
+                'InstanceCount': 4,
             }
         ],
         'KeepJobFlowAliveWhenNoSteps': False,
