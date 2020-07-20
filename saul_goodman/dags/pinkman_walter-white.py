@@ -96,11 +96,12 @@ check_pinkman_result = EmrJobFlowSensor(
 
 run_walter_white = AWSBatchOperator(
     task_id='run_walter-white',
-    jobName='walter-white',
-    jobQueue=os.getenv('COMPUTE_ENVIRONMENT_JOB_QUEUE'),
-    jobDefinition=os.getenv('WALTER_WHITE_JOB_DEFINITION'),
+    job_name='walter-white',
+    job_queue=os.getenv('COMPUTE_ENVIRONMENT_JOB_QUEUE'),
+    job_definition=os.getenv('WALTER_WHITE_JOB_DEFINITION'),
     aws_conn_id='aws_default',
     region_name='eu-central-1',
+    overrides={},
     dag=dag,
 )
 
