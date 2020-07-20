@@ -102,6 +102,7 @@ run_walter_white = AWSBatchOperator(
     aws_conn_id='aws_default',
     region_name='eu-central-1',
     overrides={},
+    parameters={},
     dag=dag,
 )
 
