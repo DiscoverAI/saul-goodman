@@ -94,8 +94,8 @@ check_pinkman_result = EmrJobFlowSensor(
     dag=dag,
 )
 
-start_walter_white = AWSBatchOperator(
-    task_id='start_walter-white',
+run_walter_white = AWSBatchOperator(
+    task_id='run_walter-white',
     jobName='walter-white',
     jobQueue=os.getenv('COMPUTE_ENVIRONMENT_JOB_QUEUE'),
     jobDefinition=os.getenv('WALTER_WHITE_JOB_DEFINITION'),
@@ -104,4 +104,4 @@ start_walter_white = AWSBatchOperator(
     dag=dag,
 )
 
-start_pinkman >> check_pinkman_result >> start_walter_white
+start_pinkman >> check_pinkman_result >> run_walter_white
