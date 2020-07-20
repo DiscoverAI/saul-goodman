@@ -1,11 +1,10 @@
 import os
 from datetime import timedelta
 
-import boto3
 from airflow import DAG
+from airflow.contrib.operators.awsbatch_operator import AWSBatchOperator
 from airflow.contrib.operators.emr_create_job_flow_operator import EmrCreateJobFlowOperator
 from airflow.contrib.sensors.emr_job_flow_sensor import EmrJobFlowSensor
-from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import days_ago
 
 PINKMAN_SPARK_STEPS = [
@@ -62,16 +61,6 @@ PINKMAN_JOB_FLOW_OVERRIDES = {
     'ServiceRole': 'EMR_DefaultRole',
 }
 
-
-def submit_walter_white_job():
-    client = boto3.client('batch')
-    return client.submit_job(
-        jobName='walter-white',
-        jobQueue=os.getenv('COMPUTE_ENVIRONMENT_JOB_QUEUE'),
-        jobDefinition=os.getenv('WALTER_WHITE_JOB_DEFINITION'),
-    )
-
-
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -105,9 +94,13 @@ check_pinkman_result = EmrJobFlowSensor(
     dag=dag,
 )
 
-start_walter_white = PythonOperator(
+start_walter_white = AWSBatchOperator(
     task_id='start_walter-white',
-    python_callable=submit_walter_white_job,
+    jobName='walter-white',
+    jobQueue=os.getenv('COMPUTE_ENVIRONMENT_JOB_QUEUE'),
+    jobDefinition=os.getenv('WALTER_WHITE_JOB_DEFINITION'),
+    aws_conn_id='aws_default',
+    region_name='eu-central-1',
     dag=dag,
 )
 
