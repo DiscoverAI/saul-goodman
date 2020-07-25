@@ -10,6 +10,12 @@ Pipeline orchestration to create a working drug creation model.
 pipenv install && pipenv run airflow initdb
 ```
 
+## Test
+### Test DAGs
+```bash
+pipenv run test-dag
+```
+
 ## Start Webserver
 ```bash
 pipenv run start-server
