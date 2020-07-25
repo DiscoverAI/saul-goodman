@@ -63,12 +63,13 @@ PINKMAN_JOB_FLOW_OVERRIDES = {
 
 default_args = {
     'owner': 'airflow',
-    'depends_on_past': False,
+    'depends_on_past': True,
     'start_date': days_ago(0),
     'email_on_failure': False,
     'email_on_retry': False,
-    'retries': 1,
+    'retries': 2,
     'retry_delay': timedelta(minutes=1),
+    'wait_for_downstream': True,
 }
 
 dag = DAG(
