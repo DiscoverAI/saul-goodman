@@ -102,7 +102,14 @@ run_walter_white = AWSBatchOperator(
     job_definition=os.getenv('WALTER_WHITE_JOB_DEFINITION'),
     aws_conn_id='aws_default',
     region_name='eu-central-1',
-    overrides={},
+    overrides={
+        'environment': [
+            {
+                'name': 'MLFLOW_TRACKING_URI',
+                'value': os.getenv("MLFLOW_TRACKING_URI")
+            },
+        ],
+    },
     parameters={},
     dag=dag,
 )
