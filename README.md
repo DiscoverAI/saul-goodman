@@ -1,4 +1,6 @@
 # Saul Goodman
+[![Gitter](https://badges.gitter.im/discoverai/community.svg)](https://gitter.im/discoverai/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 > "Congratulations! You're Now Officially The Cute One Of The Group."
 >
 > -- Saul Goodman (Breaking Bad)
